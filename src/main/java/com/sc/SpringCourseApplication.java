@@ -7,12 +7,17 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.sc.domain.Adress;
 import com.sc.domain.Category;
 import com.sc.domain.City;
+import com.sc.domain.Client;
 import com.sc.domain.Product;
 import com.sc.domain.State;
+import com.sc.domain.enums.ClientType;
+import com.sc.repositories.AdressRepository;
 import com.sc.repositories.CategoryRepository;
 import com.sc.repositories.CityRepository;
+import com.sc.repositories.ClientRepository;
 import com.sc.repositories.ProductRepository;
 import com.sc.repositories.StateRepository;
 
@@ -20,16 +25,22 @@ import com.sc.repositories.StateRepository;
 public class SpringCourseApplication implements CommandLineRunner{
 
 	@Autowired
-	CategoryRepository categoryRep;
+	private CategoryRepository categoryRep;
 	
 	@Autowired
-	ProductRepository productRep;
+	private ProductRepository productRep;
 	
 	@Autowired
-	CityRepository cityRep;
+	private CityRepository cityRep;
 	
 	@Autowired
-	StateRepository stateRep;
+	private StateRepository stateRep;
+	
+	@Autowired
+	private ClientRepository clientRep;
+	
+	@Autowired
+	private AdressRepository adressRep;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(SpringCourseApplication.class, args);
@@ -66,6 +77,16 @@ public class SpringCourseApplication implements CommandLineRunner{
 		
 		stateRep.saveAll(Arrays.asList(st1,st2));
 		cityRep.saveAll(Arrays.asList(c1,c2,c3));
+		
+		Client cl1 = new Client(null, "Maria Silva", "maria@silva.com", "36378912377", ClientType.PHYSICAL);
+		cl1.getPhones().addAll(Arrays.asList("27363323","93838393"));
+		
+		Adress a1 = new Adress(null, "Rua Flores","300","apt 203","Jardins","38220834",cl1,c1);
+		Adress a2 = new Adress(null, "Avenida Matos","105","sala 800","Centro","38777012",cl1,c2);
+		cl1.getAdresses().addAll(Arrays.asList(a1,a2));
+		
+		clientRep.save(cl1);
+		adressRep.saveAll(Arrays.asList(a1,a2));
 		
 	}
 

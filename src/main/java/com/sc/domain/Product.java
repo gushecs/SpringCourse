@@ -2,8 +2,10 @@ package com.sc.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -30,12 +33,21 @@ public class Product implements Serializable{
 	@JsonBackReference
 	private List<Category> categories = new ArrayList<>();
 	
+	@OneToMany (mappedBy = "id.product")
+	private Set<OrderItem> items = new HashSet<>();
+	
 	public Product () {}
 
 	public Product(Integer id, String name, Double price) {
 		this.id = id;
 		this.name = name;
 		this.price = price;
+	}
+	
+	public List<OrderClass> orders() {
+		List<OrderClass> o = new ArrayList<>();
+		items.forEach(x -> o.add(x.getOrder()));
+		return o;
 	}
 
 	public Integer getId() {
@@ -52,6 +64,14 @@ public class Product implements Serializable{
 
 	public List<Category> getCategories() {
 		return categories;
+	}
+
+	public Set<OrderItem> getItems() {
+		return items;
+	}
+
+	public void setItems(Set<OrderItem> items) {
+		this.items = items;
 	}
 
 	public void setId(Integer id) {

@@ -14,6 +14,7 @@ import com.sc.domain.Category;
 import com.sc.domain.City;
 import com.sc.domain.Client;
 import com.sc.domain.OrderClass;
+import com.sc.domain.OrderItem;
 import com.sc.domain.Payment;
 import com.sc.domain.Product;
 import com.sc.domain.State;
@@ -25,6 +26,7 @@ import com.sc.repositories.CategoryRepository;
 import com.sc.repositories.CityRepository;
 import com.sc.repositories.ClientRepository;
 import com.sc.repositories.OrderClassRepository;
+import com.sc.repositories.OrderItemRepository;
 import com.sc.repositories.PaymentRepository;
 import com.sc.repositories.ProductRepository;
 import com.sc.repositories.StateRepository;
@@ -55,6 +57,9 @@ public class SpringCourseApplication implements CommandLineRunner{
 	
 	@Autowired
 	private PaymentRepository payRep;
+	
+	@Autowired
+	private OrderItemRepository orderItemRep;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(SpringCourseApplication.class, args);
@@ -115,6 +120,17 @@ public class SpringCourseApplication implements CommandLineRunner{
 		
 		orderRep.saveAll(Arrays.asList(o1,o2));
 		payRep.saveAll(Arrays.asList(pay1,pay2));
+		
+		OrderItem oi1 = new OrderItem(o1, p1, 0.00, 1, 2000.00);
+		OrderItem oi2 = new OrderItem(o1, p3, 0.00, 2, 80.00);
+		OrderItem oi3 = new OrderItem(o2, p2, 100.00, 1, 800.00);
+		o1.getItems().addAll(Arrays.asList(oi1,oi2));
+		o2.getItems().add(oi3);
+		p1.getItems().add(oi1);
+		p2.getItems().add(oi3);
+		p3.getItems().add(oi2);
+		
+		orderItemRep.saveAll(Arrays.asList(oi1,oi2,oi3));
 		
 	}
 

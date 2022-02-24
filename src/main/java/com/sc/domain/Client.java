@@ -27,7 +27,7 @@ public class Client implements Serializable{
 	private Integer id;
 	private String name;
 	private String email;
-	private String cpfCnpj;
+	private String cpf_cnpj;
 	private Integer clientType;
 	
 	@OneToMany (mappedBy = "client")
@@ -40,12 +40,12 @@ public class Client implements Serializable{
 	
 	public Client() {}
 
-	public Client(Integer id, String name, String email, String cpfCnpj, ClientType clientType) {
+	public Client(Integer id, String name, String email, String cpf_cnpj, ClientType clientType) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;
-		this.cpfCnpj = cpfCnpj;
+		this.cpf_cnpj = cpf_cnpj;
 		this.clientType = clientType.getCod();
 	}
 
@@ -61,15 +61,15 @@ public class Client implements Serializable{
 		return email;
 	}
 
-	public String getCpfCnpj() {
-		return cpfCnpj;
+	public String getCpf_cnpj() {
+		return cpf_cnpj;
 	}
 
 	public ClientType getClientType() {
 		return ClientType.toEnum(clientType);
 	}
 
-	public List<Address> getAdresses() {
+	public List<Address> getAddresses() {
 		return addresses;
 	}
 
@@ -89,16 +89,16 @@ public class Client implements Serializable{
 		this.email = email;
 	}
 
-	public void setCpfCnpj(String cpfCnpj) {
-		this.cpfCnpj = cpfCnpj;
+	public void setCpf_cnpj(String cpf_cnpj) {
+		this.cpf_cnpj = cpf_cnpj;
 	}
 
 	public void setClientType(ClientType clientType) {
 		this.clientType = clientType.getCod();
 	}
 
-	public void setAdresses(List<Address> adresses) {
-		this.addresses = adresses;
+	public void setAddresses(List<Address> addresses) {
+		this.addresses = addresses;
 	}
 
 	public void setPhones(Set<String> phones) {

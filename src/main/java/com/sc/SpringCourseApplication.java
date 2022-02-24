@@ -40,7 +40,7 @@ public class SpringCourseApplication implements CommandLineRunner{
 	private ClientRepository clientRep;
 	
 	@Autowired
-	private AddressRepository adressRep;
+	private AddressRepository addressRep;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(SpringCourseApplication.class, args);
@@ -83,10 +83,10 @@ public class SpringCourseApplication implements CommandLineRunner{
 		
 		Address a1 = new Address(null, "Rua Flores","300","apt 203","Jardins","38220834",cl1,c1);
 		Address a2 = new Address(null, "Avenida Matos","105","sala 800","Centro","38777012",cl1,c2);
-		cl1.getAdresses().addAll(Arrays.asList(a1,a2));
+		cl1.getAddresses().addAll(Arrays.asList(a1,a2));
 		
 		clientRep.save(cl1);
-		adressRep.saveAll(Arrays.asList(a1,a2));
+		addressRep.saveAll(Arrays.asList(a1,a2));
 		
 	}
 

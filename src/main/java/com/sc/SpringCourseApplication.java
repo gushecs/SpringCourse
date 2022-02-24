@@ -1,5 +1,6 @@
 package com.sc;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,16 +9,23 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.sc.domain.Address;
+import com.sc.domain.CardPayment;
 import com.sc.domain.Category;
 import com.sc.domain.City;
 import com.sc.domain.Client;
+import com.sc.domain.OrderClass;
+import com.sc.domain.Payment;
 import com.sc.domain.Product;
 import com.sc.domain.State;
+import com.sc.domain.TicketPayment;
 import com.sc.domain.enums.ClientType;
+import com.sc.domain.enums.PaymentStatus;
 import com.sc.repositories.AddressRepository;
 import com.sc.repositories.CategoryRepository;
 import com.sc.repositories.CityRepository;
 import com.sc.repositories.ClientRepository;
+import com.sc.repositories.OrderClassRepository;
+import com.sc.repositories.PaymentRepository;
 import com.sc.repositories.ProductRepository;
 import com.sc.repositories.StateRepository;
 
@@ -41,6 +49,12 @@ public class SpringCourseApplication implements CommandLineRunner{
 	
 	@Autowired
 	private AddressRepository addressRep;
+	
+	@Autowired
+	private OrderClassRepository orderRep;
+	
+	@Autowired
+	private PaymentRepository payRep;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(SpringCourseApplication.class, args);
@@ -87,6 +101,20 @@ public class SpringCourseApplication implements CommandLineRunner{
 		
 		clientRep.save(cl1);
 		addressRep.saveAll(Arrays.asList(a1,a2));
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		
+		OrderClass o1 = new OrderClass(null, sdf.parse("30/09/2017 10:32"), cl1, a1);
+		OrderClass o2 = new OrderClass(null, sdf.parse("10/10/2017 19:35"), cl1, a2);
+		
+		Payment pay1 = new CardPayment(null, PaymentStatus.PAID, o1, 6);
+		o1.setPayment(pay1);
+		Payment pay2 = new TicketPayment(null, PaymentStatus.WAITING, o2, sdf.parse("20/10/2017 00:00"), null);
+		o2.setPayment(pay2);
+		cl1.getOrders().addAll(Arrays.asList(o1,o2));
+		
+		orderRep.saveAll(Arrays.asList(o1,o2));
+		payRep.saveAll(Arrays.asList(pay1,pay2));
 		
 	}
 

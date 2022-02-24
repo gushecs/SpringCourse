@@ -16,6 +16,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class OrderClass implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -23,13 +26,17 @@ public class OrderClass implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
 	private Date moment;
 	
 	@OneToOne (cascade = CascadeType.ALL, mappedBy = "order")
+	@JsonManagedReference
 	private Payment payment;
 	
 	@ManyToOne
 	@JoinColumn(name = "client_id")
+	@JsonManagedReference
 	private Client client;
 	
 	@ManyToOne

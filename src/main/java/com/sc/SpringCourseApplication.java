@@ -7,14 +7,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.sc.domain.Adress;
+import com.sc.domain.Address;
 import com.sc.domain.Category;
 import com.sc.domain.City;
 import com.sc.domain.Client;
 import com.sc.domain.Product;
 import com.sc.domain.State;
 import com.sc.domain.enums.ClientType;
-import com.sc.repositories.AdressRepository;
+import com.sc.repositories.AddressRepository;
 import com.sc.repositories.CategoryRepository;
 import com.sc.repositories.CityRepository;
 import com.sc.repositories.ClientRepository;
@@ -40,7 +40,7 @@ public class SpringCourseApplication implements CommandLineRunner{
 	private ClientRepository clientRep;
 	
 	@Autowired
-	private AdressRepository adressRep;
+	private AddressRepository adressRep;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(SpringCourseApplication.class, args);
@@ -81,8 +81,8 @@ public class SpringCourseApplication implements CommandLineRunner{
 		Client cl1 = new Client(null, "Maria Silva", "maria@silva.com", "36378912377", ClientType.PHYSICAL);
 		cl1.getPhones().addAll(Arrays.asList("27363323","93838393"));
 		
-		Adress a1 = new Adress(null, "Rua Flores","300","apt 203","Jardins","38220834",cl1,c1);
-		Adress a2 = new Adress(null, "Avenida Matos","105","sala 800","Centro","38777012",cl1,c2);
+		Address a1 = new Address(null, "Rua Flores","300","apt 203","Jardins","38220834",cl1,c1);
+		Address a2 = new Address(null, "Avenida Matos","105","sala 800","Centro","38777012",cl1,c2);
 		cl1.getAdresses().addAll(Arrays.asList(a1,a2));
 		
 		clientRep.save(cl1);

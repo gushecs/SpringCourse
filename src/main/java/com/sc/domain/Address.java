@@ -10,8 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
-public class Adress implements Serializable{
+public class Address implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -25,15 +27,16 @@ public class Adress implements Serializable{
 	
 	@ManyToOne
 	@JoinColumn(name = "client_id")
+	@JsonBackReference
 	private Client client;
 	
 	@ManyToOne
 	@JoinColumn(name= "city_id")
 	private City city;
 	
-	public Adress() {}
+	public Address() {}
 
-	public Adress(Integer id, String street, String number, String complement, String district, String postalcode,
+	public Address(Integer id, String street, String number, String complement, String district, String postalcode,
 			Client client,City city) {
 		super();
 		this.id = id;
@@ -123,7 +126,7 @@ public class Adress implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Adress other = (Adress) obj;
+		Address other = (Address) obj;
 		return Objects.equals(id, other.id);
 	};
 

@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sc.domain.enums.ClientType;
 
 @Entity
@@ -30,7 +31,8 @@ public class Client implements Serializable{
 	private Integer clientType;
 	
 	@OneToMany (mappedBy = "client")
-	private List<Adress> adresses = new ArrayList<>();
+	@JsonManagedReference
+	private List<Address> addresses = new ArrayList<>();
 	
 	@ElementCollection
 	@CollectionTable (name = "phone")
@@ -67,8 +69,8 @@ public class Client implements Serializable{
 		return ClientType.toEnum(clientType);
 	}
 
-	public List<Adress> getAdresses() {
-		return adresses;
+	public List<Address> getAdresses() {
+		return addresses;
 	}
 
 	public Set<String> getPhones() {
@@ -95,8 +97,8 @@ public class Client implements Serializable{
 		this.clientType = clientType.getCod();
 	}
 
-	public void setAdresses(List<Adress> adresses) {
-		this.adresses = adresses;
+	public void setAdresses(List<Address> adresses) {
+		this.addresses = adresses;
 	}
 
 	public void setPhones(Set<String> phones) {

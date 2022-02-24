@@ -5,15 +5,17 @@ import org.springframework.stereotype.Service;
 
 import com.sc.domain.Category;
 import com.sc.repositories.CategoryRepository;
+import com.sc.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class CategoryService {
-	
+
 	@Autowired
 	private CategoryRepository repository;
-	
+
 	public Category findById(Integer id) {
-		return repository.findById(id).orElse(null);
+		return repository.findById(id).orElseThrow(() -> new ObjectNotFoundException(
+				"Object not found! Id: " + id + " Type: " + Category.class.getName()));
 	}
 
 }

@@ -8,9 +8,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.sc.domain.Category;
+import com.sc.domain.City;
 import com.sc.domain.Product;
+import com.sc.domain.State;
 import com.sc.repositories.CategoryRepository;
+import com.sc.repositories.CityRepository;
 import com.sc.repositories.ProductRepository;
+import com.sc.repositories.StateRepository;
 
 @SpringBootApplication
 public class SpringCourseApplication implements CommandLineRunner{
@@ -20,6 +24,12 @@ public class SpringCourseApplication implements CommandLineRunner{
 	
 	@Autowired
 	ProductRepository productRep;
+	
+	@Autowired
+	CityRepository cityRep;
+	
+	@Autowired
+	StateRepository stateRep;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(SpringCourseApplication.class, args);
@@ -43,6 +53,19 @@ public class SpringCourseApplication implements CommandLineRunner{
 		
 		categoryRep.saveAll(Arrays.asList(cat1,cat2));
 		productRep.saveAll(Arrays.asList(p1,p2,p3));
+		
+		State st1 = new State(null, "Minas Gerais");
+		State st2 = new State(null, "São Paulo");
+		
+		City c1 = new City(null,"Uberlândia",st1);
+		City c2 = new City(null,"São Paulo",st2);
+		City c3 = new City(null,"Campinas",st2);
+		
+		st1.getCities().add(c1);
+		st2.getCities().addAll(Arrays.asList(c2,c3));
+		
+		stateRep.saveAll(Arrays.asList(st1,st2));
+		cityRep.saveAll(Arrays.asList(c1,c2,c3));
 		
 	}
 

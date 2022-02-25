@@ -1,10 +1,13 @@
 package com.sc.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.sc.domain.Category;
+import com.sc.domain.DTO.CategoryDTO;
 import com.sc.repositories.CategoryRepository;
 import com.sc.services.exceptions.DataIntegrityException;
 import com.sc.services.exceptions.ObjectNotFoundException;
@@ -37,6 +40,11 @@ public class CategoryService {
 		} catch (DataIntegrityViolationException e) {
 			throw new DataIntegrityException("You can't delete a category that got products! Id: " + id + " Type: " + Category.class.getName());
 		}
+	}
+	
+	public List<CategoryDTO> findAll() {
+		List<Category> list = repository.findAll();
+		return list.stream().map(x -> new CategoryDTO(x)).toList();
 	}
 
 }

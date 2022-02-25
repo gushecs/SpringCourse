@@ -70,6 +70,11 @@ public class SpringCourseApplication implements CommandLineRunner{
 		
 		Category cat1 = new Category(null,"computers");
 		Category cat2 = new Category(null,"office");
+		Category cat3 = new Category(null,"houseware");
+		Category cat4 = new Category(null,"eletronics");
+		Category cat5 = new Category(null,"decoration");
+		Category cat6 = new Category(null,"gardening");
+		Category cat7 = new Category(null,"cosmetics");
 		
 		Product p1 = new Product(null, "Computer", 2000.00);
 		Product p2 = new Product(null, "Printer", 800.00);
@@ -81,7 +86,7 @@ public class SpringCourseApplication implements CommandLineRunner{
 		p2.getCategories().addAll(Arrays.asList(cat1,cat2));
 		p3.getCategories().add(cat1);
 		
-		categoryRep.saveAll(Arrays.asList(cat1,cat2));
+		categoryRep.saveAll(Arrays.asList(cat1,cat2,cat3,cat4,cat5,cat6,cat7));
 		productRep.saveAll(Arrays.asList(p1,p2,p3));
 		
 		State st1 = new State(null, "Minas Gerais");

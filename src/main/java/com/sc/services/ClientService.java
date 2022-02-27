@@ -55,7 +55,7 @@ public class ClientService {
 			repository.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
 			throw new DataIntegrityException(
-					"You can't delete a client that got orders or addresses! Id: " + id + " Type: " + Client.class.getName());
+					"You can't delete a client that got orders! Id: " + id + " Type: " + Client.class.getName());
 		}
 	}
 

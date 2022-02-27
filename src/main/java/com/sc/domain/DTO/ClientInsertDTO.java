@@ -2,21 +2,45 @@ package com.sc.domain.DTO;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
+import com.sc.services.validation.ClientInsert;
+
+@ClientInsert
 public class ClientInsertDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
+	@NotEmpty(message = "Obrigatory field: name.")
+	@Length(min=5, max=120, message="it must have between 5 and 120 characters.")
 	private String name;
+	
+	@NotEmpty(message = "Obrigatory field: e-mail.")
+	@Email(message = "Invalid e-mail.")
 	private String email;
+	
+	@NotEmpty(message = "Obrigatory field: cpf/cnpj.")
 	private String cpf_cnpj;
+	
 	private Integer clientType;
 	
+	@NotEmpty(message = "Obrigatory field: street.")
 	private String street;
+	
+	@NotEmpty(message = "Obrigatory field: number.")
 	private String number;
+	
 	private String complement;
 	private String district;
+	
+	@NotEmpty(message = "Obrigatory field: postal code.")
 	private String postalcode;
+	
 	private Integer cityId;
 	
+	@NotEmpty(message = "Obrigatory field: phone number.")
 	private String phone1;
 	private String phone2;
 	private String phone3;

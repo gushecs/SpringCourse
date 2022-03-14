@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.sc.domain.Category;
 import com.sc.domain.OrderClass;
-import com.sc.domain.DTO.CategoryDTO;
 import com.sc.services.OrderClassService;
 
 @RestController

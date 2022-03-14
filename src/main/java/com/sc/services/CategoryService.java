@@ -1,6 +1,7 @@
 package com.sc.services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -48,7 +49,7 @@ public class CategoryService {
 	
 	public List<CategoryDTO> findAll() {
 		List<Category> list = repository.findAll();
-		return list.stream().map(x -> new CategoryDTO(x)).toList();
+		return list.stream().map(x -> new CategoryDTO(x)).collect(Collectors.toList());
 	}
 	
 	public Page<Category> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {

@@ -1,6 +1,7 @@
 package com.sc.services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -61,7 +62,7 @@ public class ClientService {
 
 	public List<ClientDTO> findAll() {
 		List<Client> list = repository.findAll();
-		return list.stream().map(x -> new ClientDTO(x)).toList();
+		return list.stream().map(x -> new ClientDTO(x)).collect(Collectors.toList());
 	}
 
 	public Page<Client> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {

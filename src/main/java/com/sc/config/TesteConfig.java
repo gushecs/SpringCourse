@@ -11,7 +11,7 @@ import com.sc.services.DBService;
 
 @Configuration
 @Profile("teste")
-public class testeConfig {
+public class TesteConfig {
 	
 	@Autowired
 	DBService service;

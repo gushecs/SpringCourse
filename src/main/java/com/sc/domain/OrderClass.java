@@ -52,6 +52,10 @@ public class OrderClass implements Serializable{
 		this.client = client;
 		this.billingAddress = billingAddress;
 	}
+	
+	public double getTotalValue() {
+		return items.stream().mapToDouble(x -> x.getSubTotal()).sum();
+	}
 
 	public Integer getId() {
 		return id;

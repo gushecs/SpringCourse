@@ -1,8 +1,11 @@
 package com.sc.domain;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 
@@ -120,6 +123,26 @@ public class OrderClass implements Serializable{
 			return false;
 		OrderClass other = (OrderClass) obj;
 		return Objects.equals(id, other.id);
+	}
+
+	@Override
+	public String toString() {
+		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt","BR"));
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+		StringBuilder builder = new StringBuilder();
+		builder.append("Order number: ");
+		builder.append(getId());
+		builder.append(", moment: ");
+		builder.append(sdf.format(getMoment()));
+		builder.append(", client: ");
+		builder.append(getClient().getName());
+		builder.append(", payment situation: ");
+		builder.append(getPayment().getStatus().getDescription());
+		builder.append("\nDetails:\n");
+		getItems().forEach(x -> builder.append(x.toString()));
+		builder.append("Total value: ");
+		builder.append(nf.format(getTotalValue()));
+		return builder.toString();
 	};
 
 }

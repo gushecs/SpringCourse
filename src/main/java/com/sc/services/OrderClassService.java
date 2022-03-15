@@ -32,6 +32,9 @@ public class OrderClassService {
 	private ProductService productService;
 	
 	@Autowired
+	private ClientService clientService;
+	
+	@Autowired
 	private OrderItemRepository orderItemRepository;
 
 	public OrderClass findById(Integer id) {
@@ -43,6 +46,7 @@ public class OrderClassService {
 	public OrderClass insert(OrderClass obj) {
 		obj.setId(null);
 		obj.setMoment(new Date());
+		obj.setClient(clientService.findById(obj.getClient().getId()));
 		obj.getPayment().setStatus(PaymentStatus.WAITING);
 		obj.getPayment().setOrder(obj);
 		if (obj.getPayment() instanceof TicketPayment) {
@@ -53,10 +57,12 @@ public class OrderClassService {
 		paymentRepository.save(obj.getPayment());
 		for (OrderItem oi:obj.getItems()) {
 			oi.setDeduction(0.00);
-			oi.setPrice(productService.findById(oi.getProduct().getId()).getPrice());
+			oi.setProduct(productService.findById(oi.getProduct().getId()));
+			oi.setPrice(oi.getProduct().getPrice());
 			oi.setOrder(obj);
 		}
 		orderItemRepository.saveAll(obj.getItems());
+		System.out.println(obj);
 		return obj;
 	}
 

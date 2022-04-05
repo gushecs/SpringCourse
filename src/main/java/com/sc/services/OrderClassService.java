@@ -4,12 +4,15 @@ import java.util.Date;
 
 import javax.transaction.Transactional;
 
+import com.sc.domain.*;
+import com.sc.security.UserSS;
+import com.sc.services.exceptions.AuthorizationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.sc.domain.OrderClass;
-import com.sc.domain.OrderItem;
-import com.sc.domain.TicketPayment;
 import com.sc.domain.enums.PaymentStatus;
 import com.sc.repositories.OrderClassRepository;
 import com.sc.repositories.OrderItemRepository;
@@ -67,6 +70,18 @@ public class OrderClassService {
 		orderItemRepository.saveAll(obj.getItems());
 		mailService.sendOrderConfirmationHtmlMail(obj);
 		return obj;
+	}
+
+	public Page<OrderClass> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		UserSS user = UserService.authenticated();
+
+		if (user==null) {
+			throw new AuthorizationException("Denied Access");
+		}
+
+		PageRequest request = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
+		Client client = clientService.findById(user.getId());
+		return repository.findByClient(client,request);
 	}
 
 }

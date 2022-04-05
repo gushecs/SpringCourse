@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
+import com.sc.domain.enums.Profile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -124,13 +125,19 @@ public class DBService {
 		
 		Client cl1 = new Client(null, "Maria Silva", "gustavo.heitor@outlook.com", "36378912377", ClientType.PHYSICAL, pe.encode("123"));
 		cl1.getPhones().addAll(Arrays.asList("27363323","93838393"));
-		
+
+		Client cl2 = new Client(null, "Ana Costa", "gu.ga.gh@hotmail.com", "31628382740", ClientType.PHYSICAL, pe.encode("123"));
+		cl2.getPhones().addAll(Arrays.asList("27363324","93238393"));
+		cl2.addProfile(Profile.ADMIN);
+
 		Address a1 = new Address(null, "Rua Flores","300","apt 203","Jardins","38220834",cl1,c1);
 		Address a2 = new Address(null, "Avenida Matos","105","sala 800","Centro","38777012",cl1,c2);
+		Address a3 = new Address(null, "Avenida Floriano","2014",null,"Centro","28777012",cl2,c2);
 		cl1.getAddresses().addAll(Arrays.asList(a1,a2));
+		cl1.getAddresses().addAll(Arrays.asList(a3));
 		
-		clientRep.save(cl1);
-		addressRep.saveAll(Arrays.asList(a1,a2));
+		clientRep.saveAll(Arrays.asList(cl1,cl2));
+		addressRep.saveAll(Arrays.asList(a1,a2,a3));
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		

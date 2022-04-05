@@ -23,6 +23,9 @@ public class ClientInsertDTO implements Serializable{
 	
 	@NotEmpty(message = "Obrigatory field: cpf/cnpj.")
 	private String cpf_cnpj;
+
+	@NotEmpty(message = "Obrigatory field: password.")
+	private String password;
 	
 	private Integer clientType;
 	
@@ -97,6 +100,14 @@ public class ClientInsertDTO implements Serializable{
 
 	public String getPhone3() {
 		return phone3;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public void setName(String name) {

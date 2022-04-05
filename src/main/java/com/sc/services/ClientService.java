@@ -10,6 +10,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.sc.domain.Address;
@@ -25,6 +26,9 @@ import com.sc.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class ClientService {
+
+	@Autowired
+	private BCryptPasswordEncoder pe;
 
 	@Autowired
 	private ClientRepository repository;
@@ -62,7 +66,7 @@ public class ClientService {
 
 	public List<ClientDTO> findAll() {
 		List<Client> list = repository.findAll();
-		return list.stream().map(x -> new ClientDTO(x)).collect(Collectors.toList());
+		return list.stream().map(ClientDTO::new).collect(Collectors.toList());
 	}
 
 	public Page<Client> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
@@ -71,11 +75,11 @@ public class ClientService {
 	}
 
 	public Client fromDTO(ClientDTO obj) {
-		return new Client(obj.getId(), obj.getName(), obj.getEmail(), null, null);
+		return new Client(obj.getId(), obj.getName(), obj.getEmail(), null, null, null);
 	}
 	
 	public Client fromDTO(ClientInsertDTO obj) {
-		Client client = new Client(null,obj.getName(),obj.getEmail(),obj.getCpf_cnpj(),ClientType.toEnum(obj.getClientType()));
+		Client client = new Client(null,obj.getName(),obj.getEmail(),obj.getCpf_cnpj(),ClientType.toEnum(obj.getClientType()),pe.encode(obj.getPassword()));
 		City city = new City(obj.getCityId(),null,null);
 		Address address = new Address(null,obj.getStreet(),obj.getNumber(),obj.getComplement(),obj.getDistrict(),obj.getPostalcode(),client,city);
 		client.getAddresses().add(address);

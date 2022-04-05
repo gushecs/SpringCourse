@@ -5,6 +5,9 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import com.sc.domain.enums.Profile;
+import com.sc.security.UserSS;
+import com.sc.services.exceptions.AuthorizationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -37,6 +40,12 @@ public class ClientService {
 	private AddressRepository addressRepository;
 
 	public Client findById(Integer id) {
+
+		UserSS user = UserService.authenticated();
+		if (user==null || !user.hasRole(Profile.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Denied Access");
+		}
+
 		return repository.findById(id).orElseThrow(() -> new ObjectNotFoundException(
 				"Object not found! Id: " + id + " Type: " + Client.class.getName()));
 	}

@@ -33,6 +33,11 @@ public class ClientResource {
 	public ResponseEntity<Client> findClient(@PathVariable Integer id) {
 		return ResponseEntity.ok().body(service.findById(id));
 	}
+
+	@RequestMapping(value = "/email", method = RequestMethod.GET)
+	public ResponseEntity<Client> findClient(@RequestParam(value = "value") String email) {
+		return ResponseEntity.ok().body(service.findByEmail(email));
+	}
 	
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody ClientInsertDTO objDTO) {

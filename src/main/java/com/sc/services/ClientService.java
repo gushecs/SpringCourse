@@ -78,6 +78,19 @@ public class ClientService {
 		return list.stream().map(ClientDTO::new).collect(Collectors.toList());
 	}
 
+	public Client findByEmail(String email) {
+		UserSS user = UserService.authenticated();
+		if (user == null || !user.hasRole(Profile.ADMIN) && !email.equals(user.getUsername())) {
+			throw new AuthorizationException("Denied access!");
+		}
+
+		Client obj = repository.findByEmail(email);
+		if (obj == null) {
+			throw new ObjectNotFoundException("Object not found! Id: "+ user.getId() + ", type: "+ Client.class.getName());
+		}
+		return obj;
+	}
+
 	public Page<Client> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest request = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repository.findAll(request);
